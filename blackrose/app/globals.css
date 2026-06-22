@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+@plugin "tailwindcss-animate";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-rose-accent: var(--rose-accent);
+  --color-rose-soft: var(--rose-soft);
+  --color-gray-dark: var(--gray-dark);
+  --color-gray-darker: var(--gray-darker);
+  
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Inter", var(--font-geist-sans), sans-serif;
+}
+
+:root {
+  --background: #030303;
+  --foreground: #fafafa;
+  --rose-accent: #f472b6;
+  --rose-soft: #fbcfe8;
+  --gray-dark: #27272a;
+  --gray-darker: #18181b;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+}
