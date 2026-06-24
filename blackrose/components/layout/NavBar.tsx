@@ -1,4 +1,6 @@
-import Link from 'next/link';
+import Link from 'next/link'
+import { NavBarActions } from './NavBarActions'
+import { NavBarCart } from './NavBarCart'
 
 export default function NavBar() {
   return (
@@ -22,15 +24,11 @@ export default function NavBar() {
             </Link>
           </div>
           <div className="flex items-center space-x-4">
-            <Link href="/cart" className="text-foreground hover:text-rose-soft transition-colors text-sm uppercase tracking-wider">
-              Cart (0)
-            </Link>
-            <Link href="/login" className="text-foreground hover:text-rose-soft transition-colors text-sm uppercase tracking-wider">
-              Login
-            </Link>
+            <NavBarCart />
+            <NavBarActions />
           </div>
         </div>
       </div>
     </nav>
-  );
+  )
 }

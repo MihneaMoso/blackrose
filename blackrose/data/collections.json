@@ -1,0 +1,44 @@
+[
+  {
+    "id": "1",
+    "slug": "dark-romance",
+    "name": "Dark Romance",
+    "description": "Deep crimson and black roses intertwined with velvety foliage for a love that defies convention.",
+    "image_url": "/images/dark-romance.webp"
+  },
+  {
+    "id": "2",
+    "slug": "midnight-garden",
+    "name": "Midnight Garden",
+    "description": "Lunar blooms in indigo and silver — an enchanted nocturne captured in petals.",
+    "image_url": "/images/midnight-garden.webp"
+  },
+  {
+    "id": "3",
+    "slug": "shadow-bloom",
+    "name": "Shadow Bloom",
+    "description": "Dramatic silhouettes of sculptural flora for the modern minimalist aesthetic.",
+    "image_url": "/images/shadow-bloom.webp"
+  },
+  {
+    "id": "4",
+    "slug": "velvet-noir",
+    "name": "Velvet Noir",
+    "description": "Plush dark petals in monochrome, accented with touches of charcoal and smoke.",
+    "image_url": "/images/velvet-noir.webp"
+  },
+  {
+    "id": "5",
+    "slug": "gothic-elegance",
+    "name": "Gothic Elegance",
+    "description": "Victorian-inspired arrangements of dark florals, dried botanicals, and antique textures.",
+    "image_url": "/images/gothic-elegance.webp"
+  },
+  {
+    "id": "6",
+    "slug": "black-orchid",
+    "name": "Black Orchid",
+    "description": "Rare and exotic — a collection built around the enigmatic black orchid and tropical rarities.",
+    "image_url": "/images/black-orchid.webp"
+  }
+]

@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Inter, Playfair_Display, Geist } from "next/font/google";
+import { Providers } from "./providers";
 import NavBar from "@/components/layout/NavBar";
 import "./globals.css";
+import { cn } from "@/lib/utils";
 
-const inter = Inter({
-  variable: "--font-sans",
-  subsets: ["latin"],
-});
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const playfair = Playfair_Display({
   variable: "--font-serif",
@@ -26,11 +25,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${playfair.variable} h-full antialiased`}
+      className={cn("dark", "h-full", "antialiased", playfair.variable, "font-sans", geist.variable)}
     >
       <body className="min-h-full flex flex-col pt-16">
-        <NavBar />
-        <main className="flex-grow">{children}</main>
+        <Providers>
+          <NavBar />
+          <main className="flex-grow">{children}</main>
+        </Providers>
       </body>
     </html>
   );
