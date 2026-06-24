@@ -11,6 +11,9 @@
 
 import { createClient } from '@supabase/supabase-js'
 import collections from '../data/collections.json'
+import { loadEnvFile } from "process";
+
+loadEnvFile(".env.local");
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
