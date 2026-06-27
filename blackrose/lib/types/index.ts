@@ -50,14 +50,14 @@ export const DEFAULT_CHECKOUT: CheckoutDetails = {
 
 export interface DeliverySlot {
   id: string
-  date: string
-  time_slot: string
+  delivery_date: string
+  time_interval: string
   current_bookings: number
   max_capacity: number
 }
 
 export interface DateGroup {
-  date: string
+  delivery_date: string
   slots: DeliverySlot[]
 }
 

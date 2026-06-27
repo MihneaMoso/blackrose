@@ -44,9 +44,9 @@ export default function DeliveryScheduler() {
       const { data, error: err } = await supabase
         .from('delivery_slots')
         .select('*')
-        .gte('date', today)
-        .order('date', { ascending: true })
-        .order('time_slot', { ascending: true })
+        .gte('delivery_date', today)
+        .order('delivery_date', { ascending: true })
+        .order('time_interval', { ascending: true })
 
       if (cancelled) return
 
@@ -61,11 +61,11 @@ export default function DeliveryScheduler() {
       )
 
       const grouped = available.reduce((acc, slot) => {
-        const existing = acc.find((g) => g.date === slot.date)
+        const existing = acc.find((g) => g.delivery_date === slot.delivery_date)
         if (existing) {
           existing.slots.push(slot)
         } else {
-          acc.push({ date: slot.date, slots: [slot] })
+          acc.push({ delivery_date: slot.delivery_date, slots: [slot] })
         }
         return acc
       }, [] as DateGroup[])
@@ -93,14 +93,14 @@ export default function DeliveryScheduler() {
   const handleSlotSelect = (slot: DeliverySlot) => {
     setSelectedSlotId(slot.id)
     updateCheckout({
-      deliveryDate: slot.date,
-      deliveryTimeSlot: slot.time_slot,
+      deliveryDate: slot.delivery_date,
+      deliveryTimeSlot: slot.time_interval,
       deliverySlotId: slot.id,
     })
   }
 
   const selectedDateSlots =
-    groups.find((g) => g.date === selectedDate)?.slots ?? []
+    groups.find((g) => g.delivery_date === selectedDate)?.slots ?? []
 
   const hasSelection =
     checkout.deliveryDate && checkout.deliveryTimeSlot
@@ -165,13 +165,13 @@ export default function DeliveryScheduler() {
             </label>
             <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
               {groups.map((g) => {
-                const fmt = formatDate(g.date)
-                const isSelected = selectedDate === g.date
-                const isTodayDate = isToday(g.date)
+                const fmt = formatDate(g.delivery_date)
+                const isSelected = selectedDate === g.delivery_date
+                const isTodayDate = isToday(g.delivery_date)
                 return (
                   <button
-                    key={g.date}
-                    onClick={() => handleDateSelect(g.date)}
+                    key={g.delivery_date}
+                    onClick={() => handleDateSelect(g.delivery_date)}
                     className={`flex flex-col items-center flex-shrink-0 w-[72px] py-3 border transition-colors ${
                       isSelected
                         ? 'border-rose-soft bg-rose-soft/10 text-rose-soft'
@@ -230,7 +230,7 @@ export default function DeliveryScheduler() {
                             : 'border-gray-darker text-gray-400 hover:border-foreground hover:text-foreground'
                         }`}
                       >
-                        {slot.time_slot}
+                        {slot.time_interval}
                       </button>
                     )
                   })}
