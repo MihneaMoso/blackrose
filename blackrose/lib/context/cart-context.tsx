@@ -68,13 +68,15 @@ function computeUnitPrice(item: CartItem): number {
 }
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>(loadCart)
-  const [checkout, setCheckout] = useState<CheckoutDetails>(loadCheckout)
+  const [items, setItems] = useState<CartItem[]>([])
+  const [checkout, setCheckout] = useState<CheckoutDetails>({ ...DEFAULT_CHECKOUT })
   const [isOpen, setIsOpen] = useState(false)
   const [hydrated, setHydrated] = useState(false)
 
   useEffect(() => {
     setHydrated(true)
+    setItems(loadCart())
+    setCheckout(loadCheckout())
   }, [])
 
   useEffect(() => {
