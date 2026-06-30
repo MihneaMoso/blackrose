@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 export function NavBarActions() {
-  const { user, signOut, isLoading } = useAuth()
+  const { user, signOut, isLoading, isAdmin } = useAuth()
   const pathname = usePathname()
 
   if (isLoading) {
@@ -22,6 +22,18 @@ export function NavBarActions() {
     <div className="flex items-center space-x-4">
       {user ? (
         <>
+          {isAdmin && (
+            <Link
+              href="/admin"
+              className={`text-sm uppercase tracking-wider transition-colors ${
+                pathname === '/admin'
+                  ? 'text-rose-soft'
+                  : 'text-rose-accent/70 hover:text-rose-accent'
+              }`}
+            >
+              Admin
+            </Link>
+          )}
           <span className="hidden sm:block text-sm text-gray-400">
             {user.email}
           </span>

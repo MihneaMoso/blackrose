@@ -14,6 +14,7 @@ interface AuthContextValue {
   user: User | null
   session: Session | null
   isLoading: boolean
+  isAdmin: boolean
   signIn: (email: string, password: string) => Promise<{ error: string | null }>
   signUp: (
     email: string,
@@ -28,26 +29,45 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [session, setSession] = useState<Session | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [isAdmin, setIsAdmin] = useState(false)
   const router = useRouter()
   const supabase = createClient()
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
+      const u = session?.user ?? null
       setSession(session)
-      setUser(session?.user ?? null)
+      setUser(u)
       setIsLoading(false)
+      if (u) checkAdmin(u.id)
     })
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
+      const u = session?.user ?? null
       setSession(session)
-      setUser(session?.user ?? null)
+      setUser(u)
+      if (u) checkAdmin(u.id)
+      else setIsAdmin(false)
       router.refresh()
     })
 
     return () => subscription.unsubscribe()
   }, [])
+
+  async function checkAdmin(userId: string) {
+    try {
+      const { data } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', userId)
+        .single()
+      setIsAdmin(data?.role === 'admin')
+    } catch {
+      setIsAdmin(false)
+    }
+  }
 
   const signIn = async (email: string, password: string) => {
     const { error } = await supabase.auth.signInWithPassword({
@@ -74,7 +94,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, session, isLoading, signIn, signUp, signOut }}
+      value={{ user, session, isLoading, isAdmin, signIn, signUp, signOut }}
     >
       {children}
     </AuthContext.Provider>
