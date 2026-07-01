@@ -29,21 +29,18 @@ export async function updateSession(request: NextRequest) {
     }
   )
 
-  const { data } = await supabase.auth.getClaims()
-  const user = data?.claims
+  // Admin route protection — redirect to login if unauthenticated
+  if (pathname.startsWith('/admin')) {
+    const { data } = await supabase.auth.getClaims()
+    const user = data?.claims
 
-  if (
-    !user &&
-    !pathname.startsWith('/login') &&
-    !pathname.startsWith('/auth')
-  ) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/auth/login'
-    return NextResponse.redirect(url)
-  }
+    if (!user) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/auth/login'
+      return NextResponse.redirect(url)
+    }
 
-  // Admin route protection — re-fetch full user and check role
-  if (user && pathname.startsWith('/admin')) {
+    // Re-fetch full user and check role
     const { data: { user: authedUser } } = await supabase.auth.getUser()
     if (!authedUser) {
       const url = request.nextUrl.clone()
