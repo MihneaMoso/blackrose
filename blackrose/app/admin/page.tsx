@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { LogOut, CalendarDays } from 'lucide-react'
+import Link from 'next/link'
+import { LogOut, CalendarDays, Package } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { AdminCalendar } from '@/components/admin/AdminCalendar'
 import { SlotManager } from '@/components/admin/SlotManager'
@@ -37,6 +38,13 @@ export default function AdminPage() {
             </h1>
           </div>
           <div className="flex items-center gap-4">
+            <Link
+              href="/admin/products"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-rose-200 hover:bg-white/5 transition-colors"
+            >
+              <Package className="h-4 w-4" />
+              Products
+            </Link>
             {userEmail && (
               <span className="text-xs text-neutral-500 hidden sm:block">
                 {userEmail}
