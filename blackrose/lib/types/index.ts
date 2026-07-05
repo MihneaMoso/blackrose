@@ -69,7 +69,18 @@ export interface Product {
   base_price: number
   image_url: string | null
   collection_slug: string | null
+  featured: boolean | null
+  offer_text: string | null
   created_at: string
+}
+
+export interface FeaturedProduct {
+  id: string
+  name: string
+  slug: string | null
+  base_price: number
+  image_url: string | null
+  offer_text: string | null
 }
 
 export interface Collection {
