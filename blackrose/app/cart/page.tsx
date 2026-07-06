@@ -13,6 +13,7 @@ export default function CartPage() {
     checkout,
     removeItem,
     updateQuantity,
+    updateCheckout,
   } = useCart()
 
   const [submitting, setSubmitting] = useState(false)
@@ -217,6 +218,29 @@ export default function CartPage() {
 
             {/* Delivery Scheduler */}
             <DeliveryScheduler />
+
+            {/* Order Notes */}
+            <div className="bg-zinc-900/50 border border-zinc-800 p-6 sm:p-8">
+              <label
+                htmlFor="order-notes"
+                className="block text-sm font-serif text-rose-200 mb-3 tracking-wide"
+              >
+                Order Notes
+              </label>
+              <textarea
+                id="order-notes"
+                value={checkout.notes}
+                onChange={(e) =>
+                  updateCheckout({ notes: e.target.value })
+                }
+                rows={3}
+                placeholder="Special instructions, delivery preferences, or anything else we should know..."
+                className="w-full px-4 py-3 rounded-lg bg-zinc-950 border border-zinc-800 text-zinc-200 text-sm placeholder-zinc-600 focus:outline-none focus:border-rose-200/40 transition-colors resize-none"
+              />
+              <p className="text-xs text-zinc-600 mt-2">
+                Optional — add any extra information for your order.
+              </p>
+            </div>
 
             {/* Error */}
             {error && (

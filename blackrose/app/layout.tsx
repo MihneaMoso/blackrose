@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   title: "Black Rose | Premium Floral Designs",
   description: "High-end, dark-themed floral arrangements and delivery.",
   icons: {
-    icon: "/images/blackrose-logo.jpeg",
+    icon: "/images/blackrose-logo-white.png",
   },
 };
 
