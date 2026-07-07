@@ -83,6 +83,37 @@ export interface FeaturedProduct {
   offer_text: string | null
 }
 
+export interface Order {
+  id: string
+  stripe_session_id: string
+  stripe_payment_intent: string | null
+  amount_total: number | null
+  currency: string | null
+  user_id: string | null
+  customer_name: string
+  customer_email: string
+  customer_phone: string
+  delivery_date: string
+  delivery_time_slot: string
+  delivery_slot_id: string | null
+  delivery_address: string
+  delivery_city: string
+  delivery_postal: string
+  notes: string
+  custom_config_json: string
+  order_status: 'paid' | 'delivered'
+  created_at: string
+}
+
+export interface OrderLineItem {
+  productId: string
+  productName: string
+  variant: { id: string; name: string; priceAdjustment: number } | null
+  addons: { id: string; name: string; price: number }[]
+  quantity: number
+  unitPrice: number
+}
+
 export interface Collection {
   id: string
   slug: string

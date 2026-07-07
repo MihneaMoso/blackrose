@@ -79,6 +79,12 @@ export default function AdminEditAboutPage() {
                 >
                   Edit About
                 </Link>
+                <Link
+                  href="/admin/orders"
+                  className="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-rose-200 hover:bg-white/5 transition-colors"
+                >
+                  Orders
+                </Link>
               </nav>
             </div>
           </aside>
