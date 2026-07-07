@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { NavBarActions } from './NavBarActions'
 import { NavBarCart } from './NavBarCart'
+import { MobileNavMenu } from './MobileNavMenu'
 
 export default function NavBar() {
   return (
@@ -23,9 +24,10 @@ export default function NavBar() {
               About
             </Link>
           </div>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center gap-2">
             <NavBarCart />
             <NavBarActions />
+            <MobileNavMenu />
           </div>
         </div>
       </div>
