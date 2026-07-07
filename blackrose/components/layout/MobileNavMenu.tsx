@@ -3,7 +3,8 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect, useRef } from 'react'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, LogOut } from 'lucide-react'
+import { useAuth } from '@/lib/supabase/auth-provider'
 
 const LINKS = [
   { href: '/shop', label: 'Shop' },
@@ -15,6 +16,7 @@ export function MobileNavMenu() {
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
   const menuRef = useRef<HTMLDivElement>(null)
+  const { user, signOut } = useAuth()
 
   useEffect(() => {
     setOpen(false)
@@ -45,14 +47,16 @@ export function MobileNavMenu() {
       {open && (
         <div className="fixed inset-x-0 top-16 z-50 animate-slide-down">
           <div className="mx-4 rounded-xl border border-zinc-800 bg-zinc-900 shadow-2xl overflow-hidden">
-            {LINKS.map((link) => {
+            {LINKS.map((link, idx) => {
               const isActive = pathname === link.href || pathname.startsWith(link.href + '/')
               return (
                 <Link
                   key={link.href}
                   href={link.href}
                   onClick={() => setOpen(false)}
-                  className={`block px-6 py-4 text-sm uppercase tracking-wider transition-colors border-b border-zinc-800 last:border-b-0 ${
+                  className={`block px-6 py-4 text-sm uppercase tracking-wider transition-colors ${
+                    idx < LINKS.length - 1 || user ? 'border-b border-zinc-800' : ''
+                  } ${
                     isActive
                       ? 'text-rose-200 bg-rose-200/5'
                       : 'text-zinc-300 hover:text-rose-200 hover:bg-white/5'
@@ -62,6 +66,18 @@ export function MobileNavMenu() {
                 </Link>
               )
             })}
+            {user && (
+              <button
+                onClick={() => {
+                  signOut()
+                  setOpen(false)
+                }}
+                className="flex items-center gap-3 w-full px-6 py-4 text-sm uppercase tracking-wider text-zinc-300 hover:text-rose-200 hover:bg-white/5 transition-colors"
+              >
+                <LogOut className="h-4 w-4" />
+                Sign Out
+              </button>
+            )}
           </div>
         </div>
       )}

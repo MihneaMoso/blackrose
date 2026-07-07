@@ -39,7 +39,7 @@ export function NavBarActions() {
           </span>
           <button
             onClick={signOut}
-            className="text-foreground hover:text-rose-soft transition-colors text-sm uppercase tracking-wider"
+            className="hidden sm:block text-foreground hover:text-rose-soft transition-colors text-sm uppercase tracking-wider"
           >
             Sign Out
           </button>
