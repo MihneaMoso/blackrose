@@ -10,7 +10,7 @@ export async function POST(request: Request) {
       return new Response('Stripe is not configured', { status: 500 })
     }
     const stripe = new Stripe(key, {
-      apiVersion: '2026-05-27.dahlia',
+      apiVersion: '2026-06-24.dahlia',
     })
 
     const rawBody = await request.text()

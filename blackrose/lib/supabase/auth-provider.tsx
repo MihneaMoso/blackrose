@@ -87,7 +87,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       },
     })
     if (!error) router.refresh()
-    return { error: error?.message ?? null, user: data?.user ?? null }
+    return {
+      error: error
+        ? typeof error.message === 'string' && error.message
+          ? error.message
+          : error.code === 'unexpected_failure'
+            ? 'Failed to send confirmation email. Please try again later.'
+            : 'An unexpected error occurred. Please try again.'
+        : null,
+      user: data?.user ?? null,
+    }
   }
 
   const signOut = async () => {

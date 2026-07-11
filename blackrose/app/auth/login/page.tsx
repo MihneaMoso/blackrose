@@ -166,7 +166,7 @@ export default function LoginPage() {
 
                 {error && (
                   <div className="border border-rose-accent/30 bg-rose-accent/5 px-4 py-3">
-                    <p className="text-rose-accent text-sm">{error}</p>
+                    <p className="text-rose-accent text-sm">{String(error)}</p>
                   </div>
                 )}
 
