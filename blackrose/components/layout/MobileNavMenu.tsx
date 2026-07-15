@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect, useRef } from 'react'
-import { Menu, X, LogOut } from 'lucide-react'
+import { Menu, X, LogOut, User } from 'lucide-react'
 import { useAuth } from '@/lib/supabase/auth-provider'
 
 const LINKS = [
@@ -67,16 +67,28 @@ export function MobileNavMenu() {
               )
             })}
             {user && (
-              <button
-                onClick={() => {
-                  signOut()
-                  setOpen(false)
-                }}
-                className="flex items-center gap-3 w-full px-6 py-4 text-sm uppercase tracking-wider text-zinc-300 hover:text-rose-200 hover:bg-white/5 transition-colors"
-              >
-                <LogOut className="h-4 w-4" />
-                Sign Out
-              </button>
+              <>
+                <Link
+                  href="/profile"
+                  onClick={() => setOpen(false)}
+                  className={`flex items-center gap-3 w-full px-6 py-4 text-sm uppercase tracking-wider text-zinc-300 hover:text-rose-200 hover:bg-white/5 transition-colors border-b border-zinc-800 ${
+                    pathname === '/profile' ? 'text-rose-200 bg-rose-200/5' : ''
+                  }`}
+                >
+                  <User className="h-4 w-4" />
+                  Profile
+                </Link>
+                <button
+                  onClick={() => {
+                    signOut()
+                    setOpen(false)
+                  }}
+                  className="flex items-center gap-3 w-full px-6 py-4 text-sm uppercase tracking-wider text-zinc-300 hover:text-rose-200 hover:bg-white/5 transition-colors"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Sign Out
+                </button>
+              </>
             )}
           </div>
         </div>

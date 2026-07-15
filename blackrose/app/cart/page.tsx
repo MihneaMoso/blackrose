@@ -2,10 +2,15 @@
 
 import DeliveryScheduler from '@/components/checkout/DeliveryScheduler'
 import { useCart } from '@/lib/context/cart-context'
+import { useAuth } from '@/lib/supabase/auth-provider'
+import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { User, Mail, MapPin } from 'lucide-react'
 
 export default function CartPage() {
+  const { user } = useAuth()
+  const supabase = createClient()
   const {
     items,
     itemCount,
@@ -18,6 +23,25 @@ export default function CartPage() {
 
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [profileLoaded, setProfileLoaded] = useState(false)
+
+  useEffect(() => {
+    if (!user || profileLoaded) return
+    supabase
+      .from('profiles')
+      .select('full_name, address')
+      .eq('id', user.id)
+      .single()
+      .then(({ data }) => {
+        setProfileLoaded(true)
+        if (!data) return
+        const patch: Record<string, string> = {}
+        if (data.full_name && !checkout.name) patch.name = data.full_name
+        if (data.address && !checkout.deliveryAddress) patch.deliveryAddress = data.address
+        if (user.email && !checkout.email) patch.email = user.email
+        if (Object.keys(patch).length > 0) updateCheckout(patch)
+      })
+  }, [user, profileLoaded, checkout.name, checkout.deliveryAddress, checkout.email, supabase, updateCheckout])
 
   const deliveryReady = !!(checkout.deliveryDate && checkout.deliveryTimeSlot)
 
@@ -171,6 +195,61 @@ export default function CartPage() {
                 </div>
               )
             })}
+
+            {/* Your Information */}
+            <div className="bg-zinc-900/50 border border-zinc-800 p-6 sm:p-8">
+              <h2 className="text-lg font-serif text-rose-200 mb-6 tracking-wide flex items-center gap-2">
+                <User className="h-4 w-4" />
+                Your Information
+              </h2>
+
+              <div className="space-y-4">
+                <div>
+                  <label htmlFor="checkout-name" className="block text-xs uppercase tracking-widest text-zinc-500 mb-2">
+                    <User className="h-3 w-3 inline mr-1 -mt-0.5" />
+                    Name
+                  </label>
+                  <input
+                    id="checkout-name"
+                    type="text"
+                    value={checkout.name}
+                    onChange={(e) => updateCheckout({ name: e.target.value })}
+                    placeholder="Your full name"
+                    className="w-full bg-zinc-950 border border-zinc-800 px-4 py-3 text-zinc-200 text-sm focus:outline-none focus:border-rose-200/40 transition-colors placeholder:text-zinc-600"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="checkout-email" className="block text-xs uppercase tracking-widest text-zinc-500 mb-2">
+                    <Mail className="h-3 w-3 inline mr-1 -mt-0.5" />
+                    Email
+                  </label>
+                  <input
+                    id="checkout-email"
+                    type="email"
+                    value={checkout.email}
+                    onChange={(e) => updateCheckout({ email: e.target.value })}
+                    placeholder="your@email.com"
+                    className="w-full bg-zinc-950 border border-zinc-800 px-4 py-3 text-zinc-200 text-sm focus:outline-none focus:border-rose-200/40 transition-colors placeholder:text-zinc-600"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="checkout-address" className="block text-xs uppercase tracking-widest text-zinc-500 mb-2">
+                    <MapPin className="h-3 w-3 inline mr-1 -mt-0.5" />
+                    Delivery Address
+                  </label>
+                  <textarea
+                    id="checkout-address"
+                    value={checkout.deliveryAddress}
+                    onChange={(e) => updateCheckout({ deliveryAddress: e.target.value })}
+                    rows={2}
+                    placeholder="Street, city, postal code"
+                    className="w-full bg-zinc-950 border border-zinc-800 px-4 py-3 text-zinc-200 text-sm focus:outline-none focus:border-rose-200/40 transition-colors placeholder:text-zinc-600 resize-none"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* ── Right: Checkout Summary ────────────────────── */}
@@ -283,7 +362,7 @@ export default function CartPage() {
         body: JSON.stringify({
           items,
           checkoutDetails: checkout,
-          userId: null,
+          userId: user?.id ?? null,
         }),
       })
 

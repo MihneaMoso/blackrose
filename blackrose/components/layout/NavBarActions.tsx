@@ -34,9 +34,12 @@ export function NavBarActions() {
               Admin
             </Link>
           )}
-          <span className="hidden sm:block text-sm text-gray-400">
+          <Link
+            href="/profile"
+            className="hidden sm:block text-sm text-gray-400 hover:text-rose-soft transition-colors"
+          >
             {user.email}
-          </span>
+          </Link>
           <button
             onClick={signOut}
             className="hidden sm:block text-foreground hover:text-rose-soft transition-colors text-sm uppercase tracking-wider"
