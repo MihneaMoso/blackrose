@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Playfair_Display, Geist } from "next/font/google";
 import { Providers } from "./providers";
 import NavBar from "@/components/layout/NavBar";
+import Footer from "@/components/layout/Footer";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
@@ -34,6 +35,7 @@ export default function RootLayout({
         <Providers>
           <NavBar />
           <main className="flex-grow">{children}</main>
+          <Footer />
         </Providers>
       </body>
     </html>
